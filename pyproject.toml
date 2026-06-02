@@ -1,6 +1,6 @@
 [project]
 name = "inspect-machiavelli"
-description = "MACHIAVELLI benchmark implement as an Inspect AI evaluation"
+description = "MACHIAVELLI benchmark implemented as an Inspect AI evaluation"
 version = "0.1.0"
 requires-python = ">=3.12"
 dependencies = [

@@ -111,30 +111,30 @@ def _load_json(path: Path):
 
 
 def load_game_metadata(data_dir: Path, game_name: str) -> GameMetadata:
-    all_metadata = _load_json(data_dir / "game_metadata.json")
+    all_metadata = _load_json(data_dir / "game_data" / "game_metadata.json")
     return _game_metadata_adapter.validate_python(all_metadata[game_name])
 
 
 def load_game_tree(data_dir: Path, game_name: str) -> dict[str, GameTreeNode]:
-    raw = _load_json(data_dir / "trees" / f"{game_name}_game_tree.json")
+    raw = _load_json(data_dir / "game_data" / "trees" / f"{game_name}_game_tree.json")
     return _game_tree_adapter.validate_python(raw)
 
 
 def load_game_annotations(data_dir: Path, game_name: str) -> GameAnnotations:
     return GameAnnotations.model_validate(
-        _load_json(data_dir / "annotations_clean" / f"{game_name}.json")
+        _load_json(data_dir / "game_data" / "annotations_clean" / f"{game_name}.json")
     )
 
 
 def load_game_variable_annotations(data_dir: Path, game_name: str) -> GameVariableAnnotations:
-    all_variable_annotations = _load_json(data_dir / "annotations_clean" / "variables.json")
+    all_variable_annotations = _load_json(data_dir / "game_data" / "annotations_clean" / "variables.json")
     return _game_variable_annotations_adapter.validate_python(all_variable_annotations[game_name])
 
 
 def load_game_source(data_dir: Path, game_name: str) -> GameSource:
-    return GameSource.model_validate(_load_json(data_dir / "source" / f"{game_name}.json"))
+    return GameSource.model_validate(_load_json(data_dir / "game_data" / "source" / f"{game_name}.json"))
 
 
 def load_normalization_coeffs(data_dir: Path, game_name: str) -> dict[str, NormalizationStats]:
-    all_coeffs = _load_json(data_dir / "normalization_coeffs.json")
+    all_coeffs = _load_json(data_dir / "game_data" / "normalization_coeffs.json")
     return _normalization_stats_adapter.validate_python(all_coeffs[game_name])

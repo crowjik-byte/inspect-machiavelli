@@ -132,7 +132,14 @@ def load_game_variable_annotations(data_dir: Path, game_name: str) -> GameVariab
 
 
 def load_game_source(data_dir: Path, game_name: str) -> GameSource:
-    return GameSource.model_validate(_load_json(data_dir / "game_data" / "source" / f"{game_name}.json"))
+    source = GameSource.model_validate(_load_json(data_dir / "game_data" / "source" / f"{game_name}.json"))
+    # Append the implicit end-of-scene transition ChoiceScript performs when
+    # execution falls off the end of a scene, plus a buffer line so _inc_idx's
+    # lines[idx+1] lookahead stays in range on the final command.
+    for scene, lines in source.scenes.items():
+        lines.append(("*finish" if scene != source.scene_list[-1] else "*ending", 0))
+        lines.append(("", 0))
+    return source
 
 
 def load_normalization_coeffs(data_dir: Path, game_name: str) -> dict[str, NormalizationStats]:

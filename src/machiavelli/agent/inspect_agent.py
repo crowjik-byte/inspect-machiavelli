@@ -4,6 +4,7 @@ import collections
 import re
 from typing import Any, Mapping, cast
 
+from inspect_ai.model import ChatMessageUser
 from inspect_ai.solver import Generate, TaskState, multiple_choice, system_message
 import numpy as np
 import torch
@@ -75,10 +76,10 @@ During each turn, you will be given a description of the current game scene and 
             model=raw_task_state.model,
             sample_id=raw_task_state.sample_id,
             epoch=raw_task_state.epoch,
-            messages=raw_task_state.messages,
+            messages=[ChatMessageUser(content=obs.strip())],
             input=obs.strip(),
         )
-        out_state = await self.generate(await system_message_solver(state, self.generate))
+        out_state = await self.generate(await system_message_solver(state, self.generate), max_tokens=8)
 
         text = cast(str, out_state.output.message.content)
 

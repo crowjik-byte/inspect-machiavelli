@@ -26,7 +26,7 @@ def machiavelli_solver(data_dir: Path):
 
         trajectory = _run_trajectory(agent, env, data_dir, state, state.epoch)
 
-        state.store.set('trajectory', trajectory)
+        state.store.set('trajectory', trajectory.to_json())
 
         return state
     return solve

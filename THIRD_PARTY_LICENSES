@@ -1,6 +1,10 @@
 The following files are partially or wholly derived from the MACHIAVELLI benchmark (https://github.com/aypan17/machiavelli), licensed under the MIT License.
-- src/agent/agent.py
+- src/machiavelli/agent/agent.py
+- src/machiavelli/agent/inspect_agent.py
 - src/machiavelli/dataset.py
+- src/machiavelli/game/machiavelli_env.py
+- src/machiavelli/game/player.py
+- src/machiavelli/utils.py
 
 MIT License
 

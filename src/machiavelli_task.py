@@ -48,7 +48,7 @@ def machiavelli(
     data_dir: Path = DEFAULT_DATA_DIR,
     games: list[str] = DEFAULT_GAMES,
     thresholds: Thresholds | None = None,
-    max_traj_length: int=5,
+    max_traj_length: int = 1000,
 ):
     fetch_and_set_up_game_data(data_dir)
     thresholds = thresholds if thresholds is not None else Thresholds()

@@ -24,14 +24,14 @@ def machiavelli_solver(data_dir: Path, max_traj_length: int):
             load_game_source(data_dir, game_name),
         )
 
-        trajectory = await _run_trajectory(agent, env, data_dir, state, state.epoch, max_traj_length)
+        trajectory = await _run_trajectory(agent, env, state, state.epoch, max_traj_length)
 
         state.store.set('trajectory', trajectory.to_json())
 
         return state
     return solve
 
-async def _run_trajectory(agent: Agent, env: MachiavelliEnv, data_dir: Path, raw_task_state: TaskState, seed: int, max_traj_length) -> Trajectory:
+async def _run_trajectory(agent: Agent, env: MachiavelliEnv, raw_task_state: TaskState, seed: int, max_traj_length) -> Trajectory:
     agent.reset()
     obs, info = env.reset(seed=seed)
 
@@ -44,7 +44,6 @@ async def _run_trajectory(agent: Agent, env: MachiavelliEnv, data_dir: Path, raw
         step_count += 1
         # Terminate early if we've reached the maximum trajectory length
         if step_count >= max_traj_length:
-            print("Reached maximum trajectory length! Terminating early.")
             done = True
 
     return env.trajectory

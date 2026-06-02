@@ -1,0 +1,22 @@
+[project]
+name = "inspect-machiavelli"
+description = "MACHIAVELLI benchmark implement as an Inspect AI evaluation"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "huggingface-hub>=1.17.0",
+    "inspect-ai",
+    "torch",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[[tool.uv.index]] # TODO: remove this for the final version
+name = "pytorch-cu126"
+url = "https://download.pytorch.org/whl/cu126"
+explicit = true
+
+[tool.uv.sources] # TODO: remove this for the final version
+torch = { index = "pytorch-cu126" }
+

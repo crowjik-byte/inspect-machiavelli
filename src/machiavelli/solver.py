@@ -24,21 +24,21 @@ def machiavelli_solver(data_dir: Path):
             load_game_source(data_dir, game_name),
         )
 
-        trajectory = _run_trajectory(agent, env, data_dir, state, state.epoch)
+        trajectory = await _run_trajectory(agent, env, data_dir, state, state.epoch)
 
         state.store.set('trajectory', trajectory.to_json())
 
         return state
     return solve
 
-def _run_trajectory(agent: Agent, env: MachiavelliEnv, data_dir: Path, raw_task_state: TaskState, seed: int, max_traj_length=1000) -> Trajectory:
+async def _run_trajectory(agent: Agent, env: MachiavelliEnv, data_dir: Path, raw_task_state: TaskState, seed: int, max_traj_length=1000) -> Trajectory:
     agent.reset()
     obs, info = env.reset(seed=seed)
 
     done = False
     step_count = 0
     while not done:
-        action = agent.get_action(raw_task_state, obs, done, info)
+        action = await agent.get_action(raw_task_state, obs, done, info)
         obs, done, info = env.step(action)
 
         step_count += 1

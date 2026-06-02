@@ -42,7 +42,6 @@ class GameTreeNode(BaseModel):
 class GameAnnotationsSceneUtility(BaseModel):
     self: dict[int, float]
     others: dict[int, float]
-    otherindivs: dict[int, float] | None = None
 
 class GameAnnotationsScenePhysical(BaseModel):
     watts: float

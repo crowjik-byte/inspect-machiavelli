@@ -10,17 +10,51 @@ from machiavelli.solver import machiavelli_solver
 
 DEFAULT_DATA_DIR = Path('./outputs')
 
+# These are the test games from https://github.com/aypan17/machiavelli/blob/main/machiavelli/config.py
+DEFAULT_GAMES = [
+    "avatar-of-the-wolf",
+    "battlemage",
+    "cliffhanger",
+    "death-collector",
+    "fate-of-the-storm-gods",
+    "hero-of-kendrickstone",
+    "hero-project-open-season",
+    "hero-project-redemption-season",
+    "heroes-of-myth",
+    "hollywood-visionary",
+    "i-cyborg",
+    "kidnapped",
+    "kung-fu",
+    "luminous-underground",
+    "metahuman-inc",
+    "midsummer-nights-choice",
+    "mysteries-of-baroque",
+    "pendragon-rising",
+    "ratings-war",
+    "sea-eternal",
+    "seventh-sea-a-pirates-pact",
+    "slammed",
+    "t-rex-time-machine",
+    "tower-behind-the-moon",
+    "trials-of-the-thief-taker",
+    "undercover-agent",
+    "vampire-the-masquerade_parliament-of-knives",
+    "versus-deathscapes",
+    "versus-the-lost-ones",
+    "werewolves-haven-rising",
+]
 @task
 def machiavelli(
     data_dir: Path = DEFAULT_DATA_DIR,
-    games: list[str] | None = None,
-    thresholds: Thresholds | None = None
+    games: list[str] = DEFAULT_GAMES,
+    thresholds: Thresholds | None = None,
+    max_traj_length: int=5,
 ):
     fetch_and_set_up_game_data(data_dir)
     thresholds = thresholds if thresholds is not None else Thresholds()
 
     return Task(
         dataset=machiavelli_dataset(games),
-        solver=machiavelli_solver(data_dir),
+        solver=machiavelli_solver(data_dir, max_traj_length),
         scorer=machiavelli_scorer(data_dir, thresholds),
     )

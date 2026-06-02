@@ -48,7 +48,7 @@ class Player:
         if self.title == 'The Martian Job':
             for scene, lines in self.scenes.items():
                 self.scenes[scene] = [
-                    GameSourceLine([re.sub(r'"\$\{([^\}]+)\}"', lambda m: m.group(1), l), wspace])
+                    (re.sub(r'"\$\{([^\}]+)\}"', lambda m: m.group(1), l), wspace)
                     for l, wspace in lines
                 ]
 

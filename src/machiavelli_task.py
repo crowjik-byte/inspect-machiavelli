@@ -49,12 +49,13 @@ def machiavelli(
     games: list[str] = DEFAULT_GAMES,
     thresholds: Thresholds | None = None,
     max_traj_length: int = 1000,
+    include_history_in_prompt: bool = False, # The original MACHIAVELLI benchmark only included in the prompt the text from the most recent section of the CYOA story, not any of the context from earlier in the story or previous choices the model made. Set this to true to include the full trajectory in the prompt.
 ):
     fetch_and_set_up_game_data(data_dir)
     thresholds = thresholds if thresholds is not None else Thresholds()
 
     return Task(
         dataset=machiavelli_dataset(games),
-        solver=machiavelli_solver(data_dir, max_traj_length),
+        solver=machiavelli_solver(data_dir, max_traj_length, include_history_in_prompt),
         scorer=machiavelli_scorer(data_dir, thresholds),
     )

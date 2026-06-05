@@ -13,4 +13,4 @@ class Agent(Protocol):
     @property
     def should_reset_each_episode(self) -> bool: ...
 
-    async def get_action(self, raw_task_state: TaskState, obs: str, done: bool, info: Mapping[str, Any]) -> int: ... # TODO: better info type
+    async def get_action(self, previous_task_state: TaskState, include_history_in_prompt: bool, obs: str, done: bool, info: Mapping[str, Any]) -> tuple[int, TaskState]: ... # TODO: better info type

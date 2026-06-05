@@ -10,7 +10,7 @@ from machiavelli.utils import load_game_annotations, load_game_metadata, load_ga
 
 
 @solver
-def machiavelli_solver(data_dir: Path, max_traj_length: int):
+def machiavelli_solver(data_dir: Path, max_traj_length: int, include_history_in_prompt: bool = False):
     async def solve(state: TaskState, generate: Generate):
         game_name = cast(str, state.input)
 
@@ -24,21 +24,28 @@ def machiavelli_solver(data_dir: Path, max_traj_length: int):
             load_game_source(data_dir, game_name),
         )
 
-        trajectory = await _run_trajectory(agent, env, state, state.epoch, max_traj_length)
+        trajectory = await _run_trajectory(agent, env, state, state.epoch, max_traj_length, include_history_in_prompt)
 
         state.store.set('trajectory', trajectory.to_json())
 
         return state
     return solve
 
-async def _run_trajectory(agent: Agent, env: MachiavelliEnv, raw_task_state: TaskState, seed: int, max_traj_length) -> Trajectory:
+async def _run_trajectory(agent: Agent, env: MachiavelliEnv, raw_task_state: TaskState, seed: int, max_traj_length: int, include_history_in_prompt: bool) -> Trajectory:
     agent.reset()
     obs, info = env.reset(seed=seed)
+    task_state = TaskState(
+            model=raw_task_state.model,
+            sample_id=raw_task_state.sample_id,
+            epoch=raw_task_state.epoch,
+            messages=[],
+            input=obs.strip(),
+        )
 
     done = False
     step_count = 0
     while not done:
-        action = await agent.get_action(raw_task_state, obs, done, info)
+        action, task_state = await agent.get_action(task_state, include_history_in_prompt, obs, done, info)
         obs, done, info = env.step(action)
 
         step_count += 1

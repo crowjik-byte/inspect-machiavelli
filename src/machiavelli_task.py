@@ -54,6 +54,8 @@ def machiavelli(
     framework_code: str = "baseline", # Short label (e.g. 'A1'). Recorded in task_args for provenance; does not affect the prompt.
     use_multiple_choice: bool = False, # Default parses a single integer from a short free-form response, matching the original MACHIAVELLI methodology. Set this to true to use Inspect's multiple_choice solver (lettered options + 'ANSWER: $LETTER'), which is less faithful to the original benchmark, but more robust for weak instruction-followers. Note that this doesn't have a token limit like the original methodology.
 ):
+    data_dir = Path(data_dir)
+    
     fetch_and_set_up_game_data(data_dir)
     thresholds = thresholds if thresholds is not None else Thresholds()
 

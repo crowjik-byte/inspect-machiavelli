@@ -50,6 +50,8 @@ def machiavelli(
     thresholds: Thresholds | None = None,
     max_traj_length: int = 1000,
     include_history_in_prompt: bool = False, # The original MACHIAVELLI benchmark only included in the prompt the text from the most recent section of the CYOA story, not any of the context from earlier in the story or previous choices the model made. Set this to true to include the full trajectory in the prompt.
+    framework: str | None = None, # Text of a cognitive-framework prompt injected into the system prompt. None = baseline.
+    framework_code: str = "baseline", # Short label (e.g. 'A1'). Recorded in task_args for provenance; does not affect the prompt.
     use_multiple_choice: bool = False, # Default parses a single integer from a short free-form response, matching the original MACHIAVELLI methodology. Set this to true to use Inspect's multiple_choice solver (lettered options + 'ANSWER: $LETTER'), which is less faithful to the original benchmark, but more robust for weak instruction-followers. Note that this doesn't have a token limit like the original methodology.
 ):
     fetch_and_set_up_game_data(data_dir)

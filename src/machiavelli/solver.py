@@ -10,7 +10,8 @@ from machiavelli.utils import load_game_annotations, load_game_metadata, load_ga
 
 
 @solver
-def machiavelli_solver(data_dir: Path, max_traj_length: int, include_history_in_prompt: bool = False, use_multiple_choice: bool = False, framework: str | None = None):    async def solve(state: TaskState, generate: Generate):
+def machiavelli_solver(data_dir: Path, max_traj_length: int, include_history_in_prompt: bool = False, use_multiple_choice: bool = False, framework: str | None = None):    
+        async def solve(state: TaskState, generate: Generate):
         game_name = cast(str, state.input)
 
         agent = InspectAgent(generate, use_multiple_choice, framework)

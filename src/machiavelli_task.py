@@ -59,6 +59,6 @@ def machiavelli(
 
     return Task(
         dataset=machiavelli_dataset(games),
-        solver=machiavelli_solver(data_dir, max_traj_length, include_history_in_prompt, use_multiple_choice),
+        solver=machiavelli_solver(data_dir, max_traj_length, include_history_in_prompt, use_multiple_choice, framework),
         scorer=machiavelli_scorer(data_dir, thresholds),
     )

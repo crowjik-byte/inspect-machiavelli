@@ -105,7 +105,7 @@ During each turn, you will be given a description of the current game scene and 
 
     async def _select_via_integer(self, state: TaskState, num_actions: int) -> tuple[int, TaskState]:
         valid_labels = [str(i) for i in range(num_actions)]
-        out_state = await self.generate(state, max_tokens=8)
+        out_state = await self.generate(state, max_tokens=512)
         text = out_state.output.message.text
         matches = re.findall(r'\d+', text.strip())
         if matches and matches[0] in valid_labels:
